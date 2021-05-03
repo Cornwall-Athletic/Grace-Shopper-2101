@@ -2,10 +2,8 @@ import React from 'react';
 import 'core-js';
 import 'regenerator-runtime';
 import { connect } from 'react-redux';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { loadUsers } from '../store';
-import AllProducts from './AllProducts';
-import SingleProduct from './SingleProduct';
+import { HashRouter as Router, Route } from 'react-router-dom';
+import { loadUsers } from '../store/usersStore';
 
 class Main extends React.Component {
   componentDidMount() {
@@ -17,10 +15,6 @@ class Main extends React.Component {
     return (
       <Router>
         <div>Welcome To Global Snacker!</div>
-        <Switch>
-          <Route exact path="/products" component={AllProducts} />
-          <Route exact path="/products/:id" component={SingleProduct} />
-        </Switch>
       </Router>
     );
   }

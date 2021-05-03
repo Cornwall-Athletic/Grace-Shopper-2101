@@ -1,23 +1,4 @@
 /*Style Sheet*/
 * {
-  background-color: lavender;
-}
-
-.allProductImage {
-  width: 250px;
-}
-
-#allProducts {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.product {
-  margin: 1rem;
-  width: calc(100% / 3 - 2rem - 2px);
-  border: 1px solid white;
-}
-
-#singleProduct > img {
-  width: 300px;
+    background-color: lavender;
 }
