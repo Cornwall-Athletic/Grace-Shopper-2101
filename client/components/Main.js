@@ -20,7 +20,8 @@ import Nav from './Nav';
 import Home from './Home';
 import CreateAccountPage from './CreateAccountPage';
 import Map from './Map';
-
+import CreateCountry from './ManageCountries/CreateCountry';
+import ViewAccount from './ManageAccount/ViewAccount';
 class Main extends React.Component {
   render() {
     return (
@@ -42,6 +43,7 @@ class Main extends React.Component {
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/login" component={LogInPage} />
             <Route exact path="/createaccount" component={CreateAccountPage} />
+            <Route exact path="/view-account" component={ViewAccount} />
           </Switch>
         </div>
       </Router>

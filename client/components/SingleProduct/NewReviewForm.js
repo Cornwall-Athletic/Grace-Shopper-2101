@@ -3,6 +3,16 @@
 import React from 'react';
 import axios from 'axios';
 
+import {
+  Button,
+  TextField,
+  Select,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+} from '@material-ui/core';
+
 class NewReview extends React.Component {
   constructor({ productId, userId, updateReviews, checkIfReviewed, reviews }) {
     super();
@@ -15,7 +25,7 @@ class NewReview extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.updateReviews = updateReviews;
-    console.log(checkIfReviewed(userId, reviews));
+    checkIfReviewed(userId, reviews);
   }
 
   async handleSubmit(ev) {
@@ -37,16 +47,35 @@ class NewReview extends React.Component {
       <div className="form">
         <h4>Add A Review</h4>
         <form className="newReview" onSubmit={this.handleSubmit}>
-          <label htmlFor="review">Rating</label>
-          <input
+          <FormControl variant="outlined">
+            <InputLabel>Stars</InputLabel>
+            <Select
+              labelId="rating-input"
+              id="select-rating"
+              name="rating"
+              type="number"
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField
+            required
+            id="review-text"
+            variant="outlined"
             name="text"
             type="text"
-            placeholder="Review"
+            placeholder="Your Review Here"
             onChange={this.handleChange}
-          />
+          ></TextField>
 
-          <label htmlFor="rating">Rating</label>
-          <input
+          <label htmlFor="rating"></label>
+          {/* <input
             name="rating"
             type="number"
             placeholder="Rating"
@@ -54,8 +83,11 @@ class NewReview extends React.Component {
             max="5"
             defaultValue="1"
             onChange={this.handleChange}
-          />
-          <button type="submit">Submit</button>
+          /> */}
+
+          <Button variant="contained" type="submit">
+            Submit
+          </Button>
         </form>
       </div>
     );

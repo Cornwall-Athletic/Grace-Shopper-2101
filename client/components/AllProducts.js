@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button, Card } from '@material-ui/core';
 import {
   loadProducts,
   loadFilteredProducts,
@@ -10,12 +11,12 @@ import {
   filterByRating,
   sortByAlpha,
   sortByPrice,
+  sortBySearch,
 } from '../store/products/products';
 import { addToCart } from '../store/cart';
 import { loadCountries } from '../store/countries';
 import { loadCategories } from '../store/categories';
 import Filters from './Filters';
-import { Button, Card } from '@material-ui/core';
 
 class AllProducts extends Component {
   constructor(props) {
@@ -110,72 +111,85 @@ class AllProducts extends Component {
   render() {
     const { products, categories, countries } = this.props;
     const name = this.props.match.params.name || 'default';
+    if (products.length) {
+      return (
+        <div id="main">
+          <Filters
+            countries={countries}
+            categories={categories}
+            filterByCategory={this.byCategory}
+            // filterByRating={this.byRating}
+            filterByPrice={this.byPrice}
+            filterByCountry={this.byCountry}
+            sortByInput={this.sortByInput}
+            reset={this.reset}
+            name={name}
+          />
+          <h1 id="products-title">Products</h1>
 
-    return (
-      <div id="main">
-        <Filters
-          countries={countries}
-          categories={categories}
-          filterByCategory={this.byCategory}
-          // filterByRating={this.byRating}
-          filterByPrice={this.byPrice}
-          filterByCountry={this.byCountry}
-          sortByInput={this.sortByInput}
-          reset={this.reset}
-          name={name}
-        />
-        <h1 id="products-title">Products</h1>
+          <div id="allProducts">
+            {products.map((product) => {
+              return (
+                <div key={product.id} className="product">
+                  <Link to={`/products/${product.id}`}>
+                    <h2 id="product-link">{`${product.title}`}</h2>
+                  </Link>
 
-        <div id="allProducts">
-          {products.map((product) => {
-            return (
-              <div key={product.id} className="product">
-                <Link to={`/products/${product.id}`}>
-                  <h3 id="product-link">{`${product.title}`}</h3>
-                </Link>
-                <span>
-                  {product.country.name}
-                  <i className={`em ${product.country.flag}`} />
-                </span>
-                <span id="item-category">
-                  {product.categories
-                    .map((category) => {
-                      return category.name;
-                    })
-                    .join(', ')}
-                </span>
+                  <span>
+                    {product.country.name}
+                    <i className={`em ${product.country.flag}`} />
+                  </span>
+                  <span id="item-category">
+                    {product.categories
+                      .map((category) => {
+                        return category.name;
+                      })
+                      .join(', ')}
+                  </span>
 
-                <span id="price">${product.price}</span>
-                <br />
-                <img
-                  className="allProductImage"
-                  src={product.imageUrl}
-                  alt={product.description}
-                />
+                  <span id="price">${product.price}</span>
 
-                {/* <button
-                  onClick={() => {
-                    this.handleClick(product);
-                  }}
-                >
-                  Quick Add
-                </button> */}
-                <Button
-                  id="quick-add"
-                  variant="contained"
-                  onClick={() => {
-                    this.handleClick(product);
-                  }}
-                >
-                  Add Product
-                </Button>
-              </div>
-            );
-          })}
+                  <br />
+                  <img
+                    className="allProductImage"
+                    src={product.imageUrl}
+                    alt={product.description}
+                  />
+                  <br />
+                  <Button
+                    id="quick-add"
+                    variant="contained"
+                    onClick={() => {
+                      this.handleClick(product);
+                    }}
+                  >
+                    Add Product
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+          {/* <productCreate history={history} /> */}
         </div>
-        {/* <productCreate history={history} /> */}
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <Filters
+            countries={countries}
+            categories={categories}
+            filterByCategory={this.byCategory}
+            // filterByRating={this.byRating}
+            filterByPrice={this.byPrice}
+            filterByCountry={this.byCountry}
+            sortByInput={this.sortByInput}
+            reset={this.reset}
+            name={name}
+          />
+          <p>No products match that description.</p>;
+        </div>
+      );
+    }
   }
 }
 
@@ -202,7 +216,7 @@ const mapStateToProps = (state) => {
     cart,
     user,
   } = state;
-  let { products } = state.products;
+  let products = state.products.filteredProducts;
   products = filterHelper(products, max, category);
   if (!products) {
     return "There's no products now...";
@@ -234,7 +248,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadCategories());
     },
     addItem: (productId, cart) => {
-      dispatch(addToCart(productId, cart));
+      dispatch(addToCart(productId, cart, 1));
     },
 
     filterByRating: (rating) => {
@@ -253,6 +267,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     sortByAlpha: (direction) => {
       return dispatch(sortByAlpha(direction));
+    },
+    filterByValue: (input) => {
+      return dispatch(sortBySearch({ value: input }));
     },
   };
 };

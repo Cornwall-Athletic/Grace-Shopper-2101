@@ -55,7 +55,7 @@ const updateUserActionCreator = (user) => {
 };
 
 const updateUser = (user, history) => {
-  const { id, firstName, lastName, email, admin, password } = user;
+  let { id, firstName, lastName, email, admin, password } = user;
   return async (dispatch) => {
     const userToUpdate = (
       await axios.put(`/api/users/${id}`, {
@@ -66,7 +66,16 @@ const updateUser = (user, history) => {
         password,
       })
     ).data;
-    dispatch(updateUserActionCreator(userToUpdate));
+    const updated = {
+      id: userToUpdate.id,
+      email: userToUpdate.email,
+      cart: userToUpdate.car,
+      firstName: userToUpdate.firstName,
+      lastName: userToUpdate.lastName,
+      admin: userToUpdate.admin,
+    };
+
+    dispatch(updateUserActionCreator(updated));
   };
 };
 

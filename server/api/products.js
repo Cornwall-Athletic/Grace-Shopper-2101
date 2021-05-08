@@ -57,7 +57,7 @@ router.post('/', async (req, res, next) => {
       countryId,
     });
     await createProduct.setCategories(categories);
-    console.log('CREATE PRODUCT', createProduct);
+
     res.status(201).send(createProduct);
   } catch (ex) {
     next(ex);

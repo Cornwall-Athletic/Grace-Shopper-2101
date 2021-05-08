@@ -8,6 +8,14 @@ import Reviews from './Reviews';
 import NewReview from './NewReviewForm';
 import axios from 'axios';
 import { addToCart } from '../../store/cart';
+import {
+  Button,
+  TextField,
+  Select,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+} from '@material-ui/core';
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -40,7 +48,7 @@ class SingleProduct extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const amount = evt.target.amount.value;
+    const amount = parseInt(evt.target.amount.value);
     const product = this.props.product;
     let cart = null;
     if (this.props.login.cart) {
@@ -48,7 +56,7 @@ class SingleProduct extends Component {
     }
 
     //ADD AMOUNT
-    this.props.addItem(product, cart);
+    this.props.addItem(product, cart, amount);
     this.setState({ addedToCart: true });
   }
 
@@ -64,61 +72,80 @@ class SingleProduct extends Component {
 
     // const history = this.props.history;
     return product ? (
-      <div id="singleProduct" key={product.id}>
-        <h1>{product.title}</h1>
-        <p>
-          Brand:
-          {product.brand}
-        </p>
-        <p>
-          Country:
-          {countryName}
-        </p>
-        <i className={`em ${flag}`} />
-        <p>
-          Description:
-          {[product.description]}
-        </p>
-        <p>
-          Price:
-          {product.price}
-        </p>
-        <img src={product.imageUrl} alt={product.description} />
-        <form onSubmit={this.handleSubmit}>
-          <select name="amount">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <button type="submit">Add to Cart</button>
-        </form>
-        {this.state.addedToCart ? (
-          <Link to="/cart">
-            <button>Continue To Checkout</button>
-          </Link>
-        ) : (
-          <div></div>
-        )}
-        <h1>Reviews</h1>
+      <div id="single-contain">
+        <div id="singleProduct" key={product.id}>
+          <h1>{product.title}</h1>
+          <hr />
+          <p>
+            Brand:
+            {product.brand}
+          </p>
+          <p>
+            Country:
+            {countryName}
+          </p>
 
-        {login.id ? (
-          this.checkIfReviewed(login.id, reviews) ? (
-            <div>Thanks! You've reviewed this already! </div>
+          <i className={`em ${flag}`} />
+          <hr />
+          <p>
+            Description:
+            {[product.description]}
+          </p>
+
+          {this.state.addedToCart ? (
+            <Link to="/cart">
+              <button>Continue To Checkout</button>
+            </Link>
           ) : (
-            <NewReview
-              productId={product.id}
-              userId={login.id}
-              updateReviews={this.updateReviews}
-              checkIfReviewed={this.checkIfReviewed}
-              reviews={reviews}
-            />
-          )
-        ) : (
-          <div>Please log in to leave a review</div>
-        )}
-        <Reviews reviews={reviews} />
+            <div></div>
+          )}
+          <h1>Reviews</h1>
+
+          {login.id ? (
+            this.checkIfReviewed(login.id, reviews) ? (
+              <div>Thanks! You've reviewed this already! </div>
+            ) : (
+              <NewReview
+                productId={product.id}
+                userId={login.id}
+                updateReviews={this.updateReviews}
+                checkIfReviewed={this.checkIfReviewed}
+                reviews={reviews}
+              />
+            )
+          ) : (
+            <div>Please log in to leave a review</div>
+          )}
+          <Reviews reviews={reviews} />
+        </div>
+        <div id="singleProduct">
+          {' '}
+          <img
+            id="single-product-img"
+            src={product.imageUrl}
+            alt={product.description}
+          />
+        </div>
+        <div id="singleProduct">
+          <h2>${product.price}</h2>
+          <hr></hr>
+          <form onSubmit={this.handleSubmit}>
+            <FormControl variant="outlined">
+              <InputLabel id="add-to-cart">Qty</InputLabel>
+              <Select name="amount">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </Select>
+            </FormControl>
+            <br />
+            <Button variant="contained" id="add-to-cart-btn" type="submit">
+              Add to Cart
+            </Button>
+          </form>
+        </div>
       </div>
     ) : (
       <div>
@@ -130,7 +157,6 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = (state, otherProps) => {
-  console.log(state.login);
   return {
     product: state.currProduct,
     reviews: state.currProduct.reviews,
@@ -144,8 +170,8 @@ const mapDispatchToProps = (dispatch, { history }) => {
     getProduct: (id) => {
       dispatch(getSingleProduct(id));
     },
-    addItem: (productId, cart) => {
-      dispatch(addToCart(productId, cart));
+    addItem: (product, cart, amount) => {
+      dispatch(addToCart(product, cart, amount));
     },
   };
 };

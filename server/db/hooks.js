@@ -27,7 +27,7 @@ Order.addProducts = function (orderId, dupletsarr) {
       where: { orderId, productId: i[0] },
     });
     if (pair) {
-      pair.product_amount++;
+      pair.product_amount += i[1];
       await pair.save();
     } else {
       promises.push(
@@ -35,7 +35,7 @@ Order.addProducts = function (orderId, dupletsarr) {
           orderId,
           productId: i[0],
           product_amount: i[1],
-        })
+        }),
       );
     }
   });
@@ -63,17 +63,27 @@ Order.updateProductsAmount = async function (orderId, productId, amount) {
 // // addtionally if there is a user linked to the
 Order.purchase = async function (
   date,
+  items,
   orderId = null,
-  products = [],
-  userId = null
+  userId = null,
 ) {
   try {
+    const promises = [];
     let order;
     const jsonobj = [];
     if (!orderId) {
       order = await Order.create({});
-      await Order.addProducts(order.id, products);
       orderId = order.id;
+      items.forEach((e) => {
+        promises.push(
+          ProductOrders.create({
+            orderId,
+            productId: e.item.id,
+            product_amount: e.amount,
+          }),
+        );
+      });
+      await Promise.all(promises);
     }
 
     order = await this.findByPk(orderId, { include: [Product] });
@@ -81,8 +91,8 @@ Order.purchase = async function (
     if (userId) {
       order.userId = userId;
     }
-    order.products.forEach((e, i) => {
-      jsonobj[i] = { ...e.dataValues, amount: e.productorders.product_amount };
+    items.forEach((e, i) => {
+      jsonobj[i] = { ...e.item };
     });
 
     order.complete = 'true';
@@ -92,10 +102,10 @@ Order.purchase = async function (
     await order.save();
     // create a new order for verified users
     if (order.userId) {
-      Order.create({ userId: order.userId });
+      const neworder = await Order.create({ userId: order.userId });
+      return neworder.id;
     }
-
-    return order;
+    return null;
   } catch (err) {
     throw new Error(err);
   }

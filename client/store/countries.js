@@ -14,14 +14,10 @@ const countriesReducer = (state = [], action) => {
       return [...action.countries];
     }
     case POST_COUNTRY: {
-      const countries = [...state.countries, action.country];
-      return { ...state, countries };
+      return [ ...state, action.country ];
     }
     case DELETE_COUNTRY: {
-      const countries = state.countries.filter((country) => {
-        return country.id !== action.countryId;
-      });
-      return { ...state, countries };
+      return state.filter((countries) => { return countries.id !== action.id; });
     }
 
     case UPDATE_COUNTRY: {
@@ -71,7 +67,6 @@ const deleteCountry = (id, history) => {
   return async (dispatch) => {
     await axios.delete(`/api/countries/${id}`);
     dispatch(deletingCountry(id));
-    history.push('/manage-countries');
   };
 };
 const updatingCountry = (country) => {

@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
-import { loadCart, updateCart, removeItem } from '../store/cart';
+import {
+  loadCart, updateCart, removeItem, purchaseItems,
+} from '../store/cart';
 
 const stripePromise = loadStripe('pk_test_51InvgGCzEJe0jWa9qmsLFyAIhV0dMwJeA59eCJtu4leBd9h8TcouHwM2OG1c691aHwIWcSebkNRCKTboOy2frM0p001MLpy1xK');
 
@@ -24,12 +26,18 @@ class Cart extends Component {
       this.props.getCart(this.props.login.cart);
     }
 
-    const query = new URLSearchParams(window.location.search);
+    const query = new URLSearchParams(this.props.location.search);
     if (query.get('success')) {
-      setMessage('Order placed! You will receive an email confirmation.');
+      const items = this.props.cart.map((e) => { return { amount: e.amount, item: e }; });
+
+      const orderId = this.props.login.cart || null;
+      const userId = this.props.login.id || null;
+      const date = new Date().toISOString().split('T')[0];
+
+      this.props.purchase(date, items, orderId, userId);
     }
     if (query.get('canceled')) {
-      setMessage(
+      window.alert(
         "Order canceled -- continue to shop around and checkout when you're ready.",
       );
     }
@@ -132,6 +140,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeItem: (cart, productId) => {
       dispatch(removeItem(cart, productId));
+    },
+    purchase: (date, items, orderId, userId) => {
+      dispatch(purchaseItems(date, items, orderId, userId));
     },
   };
 };

@@ -11,15 +11,17 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  return {
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  };
+});
 
 const Filters = (props) => {
   const classes = useStyles();
@@ -32,7 +34,13 @@ const Filters = (props) => {
     sortByInput,
     reset,
     name,
+    filterByValue,
   } = props;
+
+  function handleChange(e) {
+    const input = e.target.value;
+    filterByValue(input);
+  }
 
   return (
     <div id="filter">
@@ -52,12 +60,12 @@ const Filters = (props) => {
               value={name}
               onChange={filterByCountry}
             >
-              <option value="all">All</option>
+              {/* <MenuItem value="all">All</MenuItem> */}
               {countries.map((country) => {
                 return (
-                  <option key={country.id} value={country.name}>
+                  <MenuItem key={country.id} value={country.name}>
                     {country.name}
-                  </option>
+                  </MenuItem>
                 );
               })}
             </Select>
@@ -71,26 +79,27 @@ const Filters = (props) => {
               name="categories"
               onChange={filterByCategory}
             >
-              <option value="ALL">All</option>
+              {/* <MenuItem value="ALL">All</MenuItem> */}
               {categories.map((category) => {
                 return (
-                  <option key={category.id} value={category.name}>
+                  <MenuItem key={category.id} value={category.name}>
                     {category.name}
-                  </option>
+                  </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
 
-          <TextField type="text" placeholder="search" />
+          <TextField type="text" placeholder="search" onChange={(e) => { handleChange(e); }} />
           <FormControl className={classes.formControl}>
             <InputLabel id="sort-by-label" htmlFor="sorting">
-              Sort By:{' '}
+              Sort By:
+              {' '}
             </InputLabel>
             <Select
               labelId="sort-by-label"
               id="sort-by"
-              defaultValue={'sort'}
+              defaultValue="sort"
               name="sorting"
               onChange={sortByInput}
             >
@@ -112,7 +121,12 @@ const Filters = (props) => {
             defaultValue="45"
           />
 
-          <Button variant="contained" color="default" type="submit">
+          <Button
+            id="quick-add"
+            variant="contained"
+            color="default"
+            type="submit"
+          >
             Reset
           </Button>
         </Grid>

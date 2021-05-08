@@ -126,18 +126,22 @@ class EditProduct extends Component {
         <img src={imageUrl} alt="snack" width="100" />
         <form onSubmit={onSave}>
           <label htmlFor="title">Title*:</label>
+          <br />
           <input name="title" value={title} onChange={onChange} />
           <br />
 
           <label htmlFor="brand">Brand*:</label>
+          <br />
           <input name="brand" value={brand} onChange={onChange} />
           <br />
 
           <label htmlFor="description">Description*:</label>
+          <br />
           <input name="description" value={description} onChange={onChange} />
           <br />
 
           <label htmlFor="price">Price:*</label>
+          <br />
           <input
             name="price"
             type="number"
@@ -148,6 +152,7 @@ class EditProduct extends Component {
           <br />
 
           <label htmlFor="inventory">Inventory*:</label>
+          <br />
           <input
             name="inventory"
             value={inventory}
@@ -157,10 +162,12 @@ class EditProduct extends Component {
           <br />
 
           <label htmlFor="imageUrl">Image Url*:</label>
+          <br />
           <input name="imageUrl" value={imageUrl} onChange={onChange} />
           <br />
 
           <label htmlFor="countryId">Country*:</label>
+          <br />
           <select value={countryId} name="countryId" onChange={onChange}>
             {countries.map((country) => {
               return (
@@ -171,9 +178,9 @@ class EditProduct extends Component {
             })}
           </select>
           <br />
-          <button type="submit">Submit Changes</button>
 
           <label htmlFor="categories">Categories*:</label>
+          <br />
           <select
             value={categories}
             name="categories"
@@ -188,6 +195,10 @@ class EditProduct extends Component {
               );
             })}
           </select>
+          <br />
+          <button id="edit-prod-btn" type="submit">
+            Submit Changes
+          </button>
         </form>
 
         <button

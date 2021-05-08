@@ -8,6 +8,7 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_AMOUNT = 'UPDATE_AMOUNT';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const CLEAR_CART = 'CLEAR_CART';
+const PURCHASE_ITEMS = 'PURCHASE_ITEMS';
 
 const cartReducer = (state = [], action) => {
   switch (action.type) {
@@ -15,12 +16,14 @@ const cartReducer = (state = [], action) => {
       return [...action.cart];
     }
     case ADD_TO_CART: {
+      console.log(action)
       const key = state.find((e) => { return e.id === action.product.id; });
       if (key) {
-        key.amount++;
+        // eslint-disable-next-line operator-assignment
+        key.amount = key.amount + action.amount;
         return [...state];
       }
-      return [...state, { ...action.product, amount: 1 }];
+      return [...state, { ...action.product, amount: action.amount }];
     }
     case UPDATE_AMOUNT: {
       const key = state.find((e) => { return e.id === action.update.productId; });
@@ -32,6 +35,9 @@ const cartReducer = (state = [], action) => {
     }
     case CLEAR_CART: {
       return action.cart;
+    }
+    case PURCHASE_ITEMS: {
+      return [];
     }
     default: {
       return state;
@@ -55,17 +61,17 @@ const loadCart = (id) => {
     }
   };
 };
-const _addToCart = (product) => {
-  return { type: ADD_TO_CART, product };
+const _addToCart = (product, amount) => {
+  return { type: ADD_TO_CART, product, amount };
 };
 
-const addToCart = (product, cart = null) => {
+const addToCart = (product, cart = null, amount) => {
   return async (dispatch) => {
     try {
       if (cart) {
-        await axios.put('/api/order/addToCart', { orderId: cart, products: [[product.id, 1]] });
+        await axios.put('/api/order/addToCart', { orderId: cart, products: [[product.id, amount]] });
       }
-      dispatch(_addToCart(product));
+      dispatch(_addToCart(product, amount));
     } catch (err) {
       console.log(err);
     }
@@ -116,7 +122,20 @@ const resetCart = () => {
   };
 };
 
+const _purchaseItems = (id = null) => {
+  return { type: PURCHASE_ITEMS, id };
+};
+
+const purchaseItems = (date, items, orderId, userId) => {
+  return async (dispatch) => {
+    const { data } = await axios.post('api/order/purchase', {
+      date, items, orderId, userId,
+    });
+    dispatch(_purchaseItems(data));
+  };
+};
+
 export {
-  loadCart, addToCart, updateCart, removeItem, resetCart,
+  loadCart, addToCart, updateCart, removeItem, resetCart, purchaseItems,
 };
 export default cartReducer;

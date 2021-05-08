@@ -9,6 +9,18 @@ const FILTER_BY_CATEGORY = 'FILTER_BY_CATEGORY';
 const FILTER_BY_RATING = 'FILTER_BY_RATING';
 const SORT_BY_ALPHA = 'SORT_BY_ALPHA';
 const SORT_BY_PRICE = 'SORT_BY_PRICE';
+const FILTER_BY_VALUE = 'FILTER_BY_VALUE';
+
+// eslint-disable-next-line no-underscore-dangle
+const _sortBySearch = (value) => {
+  return { type: FILTER_BY_VALUE, value };
+};
+
+const sortBySearch = (value) => {
+  return (dispatch) => {
+    dispatch(_sortBySearch(value));
+  };
+};
 
 function sortAscAlpha(arr, field) {
   return arr.sort((a, b) => {
@@ -35,15 +47,15 @@ function sortDesPrice(arr, field) {
 }
 
 const productReducer = (
-  state = { products: [], max: Infinity, category: 'ALL' },
-  action
+  state = { products: [], max: Infinity, category: 'ALL', appliedFilters: [], filteredProducts: [] },
+  action,
 ) => {
   switch (action.type) {
     case LOAD_PRODUCTS: {
       const { products } = action;
       const max = Infinity;
       const category = 'ALL';
-      return { ...state, products };
+      return { ...state, products, filteredProducts: products };
     }
     case POST_PRODUCT: {
       const products = [...state.products, action.product];
@@ -86,6 +98,38 @@ const productReducer = (
         ? sortAscPrice(state.products, 'price', true)
         : sortDesPrice(state.products, 'price', true);
       return { ...state, products };
+    }
+    case FILTER_BY_VALUE: {
+      // clone the state
+      const newState = { ...state };
+      // the value received from our presentational component
+      const { value } = action.value;
+      const filteredValues = state.products.filter((product) => {
+        // look for objects with the received value in their ‘name’ or ‘designer’ fields
+        return product.title.toLowerCase().includes(value)
+      });
+
+      let appliedFilters = state.appliedFilters;
+      // if the value from the input box is not empty
+      if (value) {
+        // check if the filter already exists in the tracking array
+        const index = appliedFilters.indexOf(FILTER_BY_VALUE);
+        if (index === -1)
+        // if it doesn’t, add it.
+        { appliedFilters.push(FILTER_BY_VALUE); }
+        // change the filtered products to reflect the change
+        newState.filteredProducts = filteredValues;
+      } else {
+        // if the value is empty, we can assume everything has been erased
+        const index = appliedFilters.indexOf(FILTER_BY_VALUE);
+        // in that case, remove the current filter
+        appliedFilters.splice(index, 1);
+        if (appliedFilters.length === 0) {
+          // if there are no filters applied, reset the products to normal.
+          newState.filteredProducts = newState.products;
+        }
+      }
+      return newState;
     }
 
     default: {
@@ -209,5 +253,6 @@ export {
   filterByPrice,
   sortByAlpha,
   sortByPrice,
+  sortBySearch,
 };
 export default productReducer;

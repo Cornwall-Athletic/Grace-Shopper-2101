@@ -12,6 +12,7 @@ import singleProductReducer from './products/singleProduct';
 import countriesReducer from './countries';
 import ordersReducer from './orders';
 import categoriesReducer from './categories';
+import purchaseReducer from './purchases';
 
 const persistConfig = {
   key: 'root',
@@ -49,6 +50,7 @@ export const reducer = combineReducers({
   countries: countriesReducer,
   orders: ordersReducer,
   categories: categoriesReducer,
+  purchases: purchaseReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -10,9 +10,9 @@ const init = async () => {
     await db.sync({ force: true });
 
     const [sweet, salty, healthy, frozen] = await Promise.all(
-      ['sweet', 'salty', 'healthy', 'frozen'].map((name) =>
-        Category.create({ name })
-      )
+      ['sweet', 'salty', 'healthy', 'frozen'].map((name) => {
+        return Category.create({ name });
+      })
     );
 
     const Australia = await Country.create({
@@ -512,7 +512,13 @@ const init = async () => {
         ['paul@snacker.com', 'pw', 'paul', 'n', false],
         ['dan@snacker.com', 'pw', 'dan', 't', false],
       ].map(([email, password, firstName, lastName, admin]) => {
-        return User.create({ email, password, firstName, lastName, admin });
+        return User.create({
+          email,
+          password,
+          firstName,
+          lastName,
+          admin,
+        });
       })
     );
 

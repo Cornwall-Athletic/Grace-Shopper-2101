@@ -1,12 +1,16 @@
 /*Style Sheet*/
 body {
-  background-color: darkseagreen;
+  background-color: #a4e9ba;
   z-index: 0;
-  color: white;
+  color: black;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Quicksand', sans-serif;
+}
+
+#title-title {
+  font-weight: lighter;
 }
 
 #container {
@@ -36,11 +40,8 @@ body {
   align-items: center;
   flex-direction: column;
   height: 25%;
-  padding: 15%;
+  padding: 5%;
 }
-/* #test {
-  .flex: 1 200px;
-} */
 
 #all-snacks-btn {
   text-decoration: none;
@@ -103,15 +104,17 @@ body {
 }
 
 #product-link {
+  color: black;
   margin-top: 0.2rem;
-  color: rgb(18, 39, 18);
   text-decoration: underline;
+  font-weight: lighter;
 }
 .product > a {
   text-decoration: none;
 }
 
-#allProducts {
+#allProducts,
+#accountOrders {
   display: flex;
   flex-wrap: wrap;
 }
@@ -129,10 +132,10 @@ body {
   width: calc(100% / 3 - 2rem - 12px);
   min-width: 300px;
   padding: 5px;
-  border: 1px solid white;
+  border: 1px solid black;
   border-radius: 0.3em;
-  filter: drop-shadow(5px 4px 4px rgb(115, 153, 115));
-  background-color: darkseagreen;
+  filter: drop-shadow(5px 4px 4px rgb(166, 221, 166));
+  background-color: #adf1c2;
 }
 #item-category {
   margin-left: 1rem;
@@ -145,10 +148,44 @@ body {
   margin: 0.2rem;
 }
 
-#singleProduct > img {
-  width: 300px;
+#add-to-cart-btn {
+  margin-top: 20px;
+  font-family: 'Quicksand', sans-serif;
 }
 
+#select-manage-products {
+  min-width: 80px;
+}
+
+#single-contain {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#singleProduct {
+  margin: 2rem;
+  flex: 1;
+}
+#singleProduct > img {
+  width: 400px;
+}
+
+.newReview {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#select-rating {
+  min-width: 50px;
+}
+
+#single-product-img {
+  max-width: 500px;
+}
 #map {
   height: 300px;
   width: 200px;
@@ -178,6 +215,16 @@ body {
 
 #edit-user {
   margin: 2em;
+}
+#edit-product {
+  margin-left: 1em;
+}
+#edit-prod-btn {
+  margin-top: 0.5em;
+}
+
+#edit-product > input {
+  min-width: 100px;
 }
 
 .product-manage {
@@ -225,17 +272,20 @@ body {
 
 #logged {
   color: black;
+  margin-top: 0.6rem;
+  word-wrap: break-word;
 }
 
 #login-contain {
-  border: 1px solid white;
+  border: 1px solid black;
   padding: 1rem;
   border-radius: 0.3rem;
-  filter: drop-shadow(5px 4px 4px rgb(79, 105, 79));
+  filter: drop-shadow(5px 4px 4px rgb(166, 214, 166));
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: #b5f3ca;
   width: 33vw;
   position: fixed;
   top: 40%;
@@ -280,9 +330,49 @@ body {
   justify-content: center;
   flex: 1;
   max-width: 100vw;
-
+}
 .allProductImage {
   width: 300em;
   height: 330em;
   /* Or You can try 250/280 */
+}
+
+.singlePurchase {
+  margin: 1rem;
+  width: calc(100% / 3 - 2rem - 12px);
+  min-width: 300px;
+  padding: 5px;
+  border: 1px solid white;
+  border-radius: 0.3em;
+  filter: drop-shadow(5px 4px 4px rgb(115, 153, 115));
+  background-color: darkseagreen;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+  border-color: inherit;
+.account {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+#manage-account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#create-country {
+  border: 0.1em;
+  border-style: solid;
+  margin: 0.5em;
+  padding: 0.2em;
+  border-radius: 0.4em;
+  width: 33%;
 }

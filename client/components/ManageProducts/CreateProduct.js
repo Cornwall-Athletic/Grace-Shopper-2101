@@ -8,6 +8,8 @@ import {
   Select,
   FormControl,
   FormHelperText,
+  InputLabel,
+  MenuItem,
 } from '@material-ui/core';
 
 class CreateProduct extends Component {
@@ -20,7 +22,7 @@ class CreateProduct extends Component {
       price: '',
       inventory: '',
       imageUrl: '',
-      // location didn't work  because location already references the current url
+      // location didn't work because location already references the current url
       countryId: '',
       categories: [],
     };
@@ -149,36 +151,41 @@ class CreateProduct extends Component {
           />
           <br />
           <FormControl variant="outlined">
-            <Select defaultValue="default" name="countryId" onChange={onChange}>
-              <option value="default">Country</option>
-              {countries.map((country) => {
-                return (
-                  <option key={country.id} value={country.id}>
-                    {country.name}
-                  </option>
-                );
-              })}
-            </Select>
-            <FormHelperText>Required</FormHelperText>
-          </FormControl>
-          <FormControl variant="outlined">
+            <InputLabel id="select-country">Country</InputLabel>
             <Select
-              defaultValue="default"
-              name="categories"
+              labelId="select-country"
+              id="select-manage-products"
+              name="countryId"
               onChange={onChange}
             >
-              {' '}
-              <option value="default">Category</option>;
-              {categories.map((category) => {
+              {countries.map((country) => {
                 return (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
+                  <MenuItem key={country.id} value={country.id}>
+                    {country.name}
+                  </MenuItem>
                 );
               })}
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
+          {/* <FormControl variant="outlined">
+            <InputLabel id="select-category">Category</InputLabel>
+            <Select
+              labelId="select-category"
+              id="select-manage-products"
+              name="categoryId"
+              onChange={onChange}
+            >
+              {categories.map((category) => {
+                return (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl> */}
 
           <br />
           <Button

@@ -58,8 +58,14 @@ class ManageUsers extends React.Component {
   render() {
     const { auth } = this.state;
     const { makeAdmin } = this;
-    const { users, destroy, load, trigger } = this.props;
-    if (!auth.admin) {
+    const {
+      users,
+      destroy,
+      load,
+      trigger,
+      login: { admin },
+    } = this.props;
+    if (!admin) {
       return (
         <div>
           <h4>You are not authorized to view this page.</h4>
@@ -78,10 +84,10 @@ class ManageUsers extends React.Component {
                   <li key="last-name">Last Name: {user.lastName}</li>
                   <li key="email">Email: {user.email}</li>
                   <li key="admin">Admin: {user.admin ? 'Yes' : 'No'}</li>
-                  <li key="passwordResetTriggered">
+                  {/* <li key="passwordResetTriggered">
                     Password Reset Triggered:{' '}
                     {user.passwordResetTriggered.toString()}
-                  </li>
+                  </li> */}
                 </ul>
                 <button
                   type="button"
@@ -94,13 +100,13 @@ class ManageUsers extends React.Component {
                   {user.admin ? 'Remove Admin Status' : 'Make Admin'}
                 </button>
 
-                {user.passwordResetTriggered ? (
+                {/* {user.passwordResetTriggered ? (
                   ''
                 ) : (
                   <button type="button" onClick={() => trigger(user)}>
                     Trigger Password Reset
                   </button>
-                )}
+                )} */}
               </div>
             );
           })}

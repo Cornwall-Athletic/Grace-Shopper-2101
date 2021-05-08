@@ -6,6 +6,7 @@ import { loadProducts } from '../../store/products/products';
 import { loadCountries } from '../../store/countries';
 import { loadCategories } from '../../store/categories';
 import CreateProduct from './CreateProduct';
+import { Button, Card } from '@material-ui/core';
 
 class ManageProducts extends React.Component {
   constructor(props) {
@@ -17,8 +18,8 @@ class ManageProducts extends React.Component {
 
   async componentDidMount() {
     this.exchangeToken();
-    this.props.load();
     this.props.loadCountries();
+    this.props.load();
     this.props.loadCategories();
   }
 
@@ -38,11 +39,13 @@ class ManageProducts extends React.Component {
   }
 
   render() {
-    const { countries } = this.props;
+    const {
+      login: { admin },
+    } = this.props;
     const { products } = this.props.products;
     const { auth } = this.state;
     const {} = this;
-    if (!auth.admin) {
+    if (!admin) {
       return (
         <div>
           <h4>You are not authorized to view this page.</h4>
@@ -77,8 +80,8 @@ class ManageProducts extends React.Component {
                   <li>Description: {description}</li>
                   <li>Price: {price}</li>
                   <li>Inventory: {inventory}</li>
-                  <li>Country:{country ? country.name : ''}</li>
-                  <li>Categories: {categories.join(', ')}</li>
+                  {/* <li>Country:{country ? country.name : ''}</li> */}
+                  {/* <li>Categories: {categories.join(', ')}</li> */}
                 </ul>
                 <Link to={`/manage-products/${product.id}`}>Edit</Link>
               </div>
