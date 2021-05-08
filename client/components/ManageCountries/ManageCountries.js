@@ -23,7 +23,7 @@ class ManageCountries extends React.Component {
         <h2>Manage Countries</h2>
         <CreateCountry />
         <div id="manage-countries">
-          <h3>Country List</h3>
+          <h3>Country List:</h3>
           {countries.map((country, idx) => {
             const { name, flag, latitude, longitude } = country;
 
@@ -31,6 +31,7 @@ class ManageCountries extends React.Component {
               <div key={idx} className="country-manage">
                 <ul id="country-manage">
                   <li>Name: {name}</li>
+                  
                   <li>Flag: {flag}</li>
                   <li>Latitude: {latitude}</li>
                   <li>Longitude: {longitude}</li>
