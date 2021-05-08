@@ -84,34 +84,6 @@ class CreateCountry extends Component {
             <Link to="/">Cancel</Link>
           </button>
         </form>
-        <div id="country list">
-          <ul key="key">
-            {this.props.countries.map((e) => {
-              return (
-                <div>
-                  <ul key={`${e.id}`}>
-                    <li id="name">
-                      {e.name}
-                      <i className={`em ${e.flag}`} />
-                    </li>
-                    <li id="latitude">
-                      Latitude: {e.latitude}, Longitude: {e.longitude}
-                    </li>
-                    <button
-                      onClick={() => {
-                        this.props.delete(e.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                    <br />
-                    <br />
-                  </ul>
-                </div>
-              );
-            })}
-          </ul>
-        </div>
       </div>
     );
   }
