@@ -49,7 +49,7 @@ class CreateCountry extends Component {
     return (
       <div id="create-country">
         <h3>Add A Country:</h3>
-        <form onSubmit={onSave} action="/">
+        <form onSubmit={onSave} action="/" id="create-product-form">
           <label htmlFor="title">Name*:</label>
           <input name="name" value={name} onChange={onChange} />
           <br />
@@ -57,20 +57,10 @@ class CreateCountry extends Component {
           <input name="flag" value={flag} onChange={onChange} />
           <br />
           <label htmlFor="latitude">Latitude*:</label>
-          <input
-            type="number"
-            name="latitude"
-            value={latitude}
-            onChange={onChange}
-          />
+          <input type="number" name="latitude" value={latitude} onChange={onChange} />
           <br />
           <label htmlFor="longitude">Longitude*:</label>
-          <input
-            type="number"
-            name="longitude"
-            value={longitude}
-            onChange={onChange}
-          />
+          <input type="number" name="longitude" value={longitude} onChange={onChange} />
           <br />
           <button onClick={onSave}>Save</button>
           <button>

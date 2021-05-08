@@ -11,6 +11,8 @@ import SingleProduct from './SingleProduct/SingleProduct';
 import LogInPage from './LogInPage';
 import ManageProducts from './ManageProducts/ManageProducts';
 import EditProduct from './ManageProducts/EditProduct';
+import ManageCountries from './ManageCountries/ManageCountries';
+import EditCountry from './ManageCountries/EditCountry';
 import ManageUsers from './ManageUsers';
 import ManageOrders from './ManageOrders/ManageOrders';
 import EditOrder from './ManageOrders/EditOrder';
@@ -18,7 +20,6 @@ import Nav from './Nav';
 import Home from './Home';
 import CreateAccountPage from './CreateAccountPage';
 import Map from './Map';
-import CrearteCountry from './ManageCountries/CrearteCountry';
 
 class Main extends React.Component {
   render() {
@@ -29,7 +30,8 @@ class Main extends React.Component {
           <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/products" component={AllProducts} />
-            <Route exact path="/manage-countries" component={CrearteCountry} />
+            <Route exact path="/manage-countries" component={ManageCountries} />
+            <Route exact path="/manage-countries/:id" component={EditCountry} />
             <Route exact path="/products/c/:name" component={AllProducts} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/manage-products" component={ManageProducts} />

@@ -41,6 +41,7 @@ class Nav extends React.Component {
         ) : (
           <Link to="/login">Log in</Link>
         )}
+        <Link to="/manage-countries">Manage Country</Link>
         <Link to="/manage-products">Manage Products</Link>
         <Link to="/manage-orders">Manage Orders</Link>
         <Link to="/manage-users">Manage Users</Link>

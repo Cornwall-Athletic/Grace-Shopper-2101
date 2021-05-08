@@ -280,8 +280,9 @@ body {
   justify-content: center;
   flex: 1;
   max-width: 100vw;
+
 .allProductImage {
-  width: 300px;
-  height: 330px;
+  width: 300em;
+  height: 330em;
   /* Or You can try 250/280 */
 }
