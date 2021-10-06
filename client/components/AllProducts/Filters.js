@@ -6,7 +6,6 @@ import {
   MenuItem,
   TextField,
   Button,
-  Slider,
   Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,7 +46,7 @@ const Filters = (props) => {
       <form onSubmit={reset}>
         <Grid
           direction="row"
-          justify="flex-start"
+          justifyContent="flex-start"
           alignItems="baseline"
           container
         >
@@ -56,11 +55,12 @@ const Filters = (props) => {
             <Select
               labelId="countries"
               id="countries"
+              defaultValue="all"
               label="All Countries"
               value={name}
               onChange={filterByCountry}
             >
-              {/* <MenuItem value="all">All</MenuItem> */}
+              <MenuItem value="all">All</MenuItem>
               {countries.map((country) => {
                 return (
                   <MenuItem key={country.id} value={country.name}>
@@ -79,7 +79,7 @@ const Filters = (props) => {
               name="categories"
               onChange={filterByCategory}
             >
-              {/* <MenuItem value="ALL">All</MenuItem> */}
+              <MenuItem value="ALL">All</MenuItem>
               {categories.map((category) => {
                 return (
                   <MenuItem key={category.id} value={category.name}>
@@ -90,11 +90,16 @@ const Filters = (props) => {
             </Select>
           </FormControl>
 
-          <TextField type="text" placeholder="search" onChange={(e) => { handleChange(e); }} />
+          <TextField
+            type="text"
+            placeholder="search"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
           <FormControl className={classes.formControl}>
             <InputLabel id="sort-by-label" htmlFor="sorting">
-              Sort By:
-              {' '}
+              Sort By:{' '}
             </InputLabel>
             <Select
               labelId="sort-by-label"
@@ -110,7 +115,7 @@ const Filters = (props) => {
               <option value="price_des">High-Low</option>
             </Select>
           </FormControl>
-          <label htmlFor="price"> Max Price</label>
+          {/* <InputLabel htmlFor="price"> Max Price</InputLabel>
           <input
             id="slider"
             type="range"
@@ -119,14 +124,9 @@ const Filters = (props) => {
             max="45"
             onChange={filterByPrice}
             defaultValue="45"
-          />
+          /> */}
 
-          <Button
-            id="quick-add"
-            variant="contained"
-            color="default"
-            type="submit"
-          >
+          <Button variant="contained" color="default" type="submit">
             Reset
           </Button>
         </Grid>

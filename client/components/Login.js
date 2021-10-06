@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { updateUser, loadUsers, resetPassword } from '../store/users';
 import { loginUser } from '../store/loginstate';
 
-import { TextField, Button, ThemeProvider } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 // fix login issues
 class LogIn extends React.Component {

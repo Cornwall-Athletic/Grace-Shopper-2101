@@ -21,18 +21,17 @@ import Map from './Map';
 import CreateCountry from './ManageCountries/CreateCountry';
 import ViewAccount from './ManageAccount/ViewAccount';
 
-
 import axios from 'axios';
 
 axios.interceptors.request.use(
-  config =>{
-    config.headers.authorization = `${window.localStorage.getItem('token')}`
-    return config
+  (config) => {
+    config.headers.authorization = `${window.localStorage.getItem('token')}`;
+    return config;
   },
-  error =>{
-    return Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
   }
-)
+);
 class Main extends React.Component {
   render() {
     return (
